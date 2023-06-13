@@ -23,6 +23,9 @@ class CloudIoTCoreDevice {
  private:
   const char *project_id;
   const char *location;
+
+  const char *subscription_id;
+
   const char *registry_id;
   const char *device_id;
 
@@ -40,13 +43,21 @@ class CloudIoTCoreDevice {
   CloudIoTCoreDevice(const char *project_id, const char *location,
                      const char *registry_id, const char *device_id,
                      const char *private_key);
-
+  CloudIoTCoreDevice(const char *project_id, const char *location,
+                     const char *subscription_id, const char *registry_id,
+                     const char *device_id, const char *private_key);
+                     
   CloudIoTCoreDevice &setProjectId(const char *project_id);
   CloudIoTCoreDevice &setLocation(const char *location);
+
+  CloudIoTCoreDevice &setSubscriptionId(const char *subscription_id);
+
   CloudIoTCoreDevice &setRegistryId(const char *registry_id);
   CloudIoTCoreDevice &setDeviceId(const char *device_id);
+
   CloudIoTCoreDevice &setPrivateKey(const char *private_key);
   CloudIoTCoreDevice &setPrivateKey(const unsigned char *private_key);
+  
   void setJwtExpSecs(int exp_in_secs);
   int getJwtExpSecs();
   unsigned long getExpMillis();
@@ -65,6 +76,9 @@ class CloudIoTCoreDevice {
   String getCommandsTopic();
   String getConfigTopic();
   String getDeviceId();
+
+  String getRegistryId();
+
   String getEventsTopic();
   String getStateTopic();
 };

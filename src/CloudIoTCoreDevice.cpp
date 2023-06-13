@@ -42,6 +42,21 @@ CloudIoTCoreDevice::CloudIoTCoreDevice(const char *project_id,
   setPrivateKey(private_key);
 }
 
+CloudIoTCoreDevice::CloudIoTCoreDevice(const char *project_id,
+                                       const char *location,
+                                       const char *subscription_id,
+                                       const char *registry_id,
+                                       const char *device_id,
+                                       const char *private_key)
+{
+  setProjectId(project_id);
+  setLocation(location);
+  setSubscriptionId(subscription_id);
+  setRegistryId(registry_id);
+  setDeviceId(device_id);
+  setPrivateKey(private_key);
+}
+
 unsigned long CloudIoTCoreDevice::getExpMillis()
 {
   return exp_millis;
@@ -80,18 +95,27 @@ String CloudIoTCoreDevice::getBasePath()
 
 String CloudIoTCoreDevice::getClientId()
 {
+  // subscriptions/autosolve-kgahiqbxj/registries/hotel1904Reg/devices/hotel004
+
+  return String("subscriptions/") + subscription_id + "/registries" + registry_id + "devices/" + device_id;
+}
+
+/*
+String CloudIoTCoreDevice::getClientId()
+{
   return String("projects/") + project_id + "/locations/" + location +
          "/registries/" + registry_id + "/devices/" + device_id;
 }
+*/
 
 String CloudIoTCoreDevice::getConfigTopic()
 {
-  return String("/devices/") + device_id + "/config";
+  return String(registry_id) + device_id + "/config";
 }
 
 String CloudIoTCoreDevice::getCommandsTopic()
 {
-  return String("/devices/") + device_id + "/commands/#";
+  return String(registry_id) + device_id + "/commands/#";
 }
 
 String CloudIoTCoreDevice::getDeviceId()
@@ -101,12 +125,12 @@ String CloudIoTCoreDevice::getDeviceId()
 
 String CloudIoTCoreDevice::getEventsTopic()
 {
-  return String("/devices/") + device_id + "/events";
+  return String(registry_id) + device_id + "/events";
 }
 
 String CloudIoTCoreDevice::getStateTopic()
 {
-  return String("/devices/") + device_id + "/state";
+  return String(registry_id) + device_id + "/state";
 }
 
 String CloudIoTCoreDevice::getConfigPath(int version)
@@ -143,6 +167,12 @@ CloudIoTCoreDevice &CloudIoTCoreDevice::setProjectId(const char *project_id)
 CloudIoTCoreDevice &CloudIoTCoreDevice::setLocation(const char *location)
 {
   this->location = location;
+  return *this;
+}
+
+CloudIoTCoreDevice &CloudIoTCoreDevice::setSubscriptionId(const char *subscription_id)
+{
+  this->subscription_id = subscription_id;
   return *this;
 }
 
